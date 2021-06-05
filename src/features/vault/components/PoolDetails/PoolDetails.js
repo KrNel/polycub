@@ -18,8 +18,9 @@ import PoolTitle from '../PoolSummary/PoolTitle/PoolTitle';
 import LabeledStat from '../PoolSummary/LabeledStat/LabeledStat';
 import styles from './styles';
 import { Helmet } from 'react-helmet';
-import { getNetworkFriendlyName } from '../../../helpers/getNetworkData';
-import { getPageMeta, usePageMeta } from '../../../common/getPageMeta';
+// import { getNetworkFriendlyName } from '../../../helpers/getNetworkData';
+// import { getPageMeta, usePageMeta } from '../../../common/getPageMeta';
+import { usePageMeta } from '../../../common/getPageMeta';
 
 const FETCH_INTERVAL_MS = 30 * 1000;
 
@@ -90,7 +91,7 @@ const PoolDetails = ({ vaultId }) => {
         {state}
       </Paper>
     );
-  }, [pool, launchpool]);
+  }, [pool, launchpool, classes.status, t]);
 
   /*
   const vaultStateTitle =

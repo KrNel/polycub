@@ -1,4 +1,4 @@
-import { byDecimals } from './bignumber';
+// import { byDecimals } from './bignumber';
 
 let trimReg = /(^\s*)|(\s*$)/g;
 

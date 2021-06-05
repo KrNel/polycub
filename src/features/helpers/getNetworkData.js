@@ -42,7 +42,7 @@ const networkFriendlyName = {
 };
 
 export const getNetworkCoin = () => {
-  return nativeCoins.find(coin => coin.chainId == process.env.REACT_APP_NETWORK_ID);
+  return nativeCoins.find(coin => coin.chainId === Number(process.env.REACT_APP_NETWORK_ID));
 };
 
 export const getNetworkPools = () => {

@@ -54,11 +54,11 @@ const VisiblePools = ({
         }
       }
     }
-  }, []);
+  }, [indexes, pools, stake]);
 
   useEffect(() => {
     fetchPoolData(indexes);
-  }, [fetchPoolData]);
+  }, [fetchPoolData, indexes]);
 
   return (
     <>

@@ -78,7 +78,7 @@ const WithdrawSection = ({ pool, index, sharesBalance }) => {
     }
 
     return outputs;
-  }, [pool.tokenAddress]);
+  }, [pool]);
 
   const [withdrawSettings, setWithdrawSettings] = useState({
     isZap: false,
@@ -180,7 +180,7 @@ const WithdrawSection = ({ pool, index, sharesBalance }) => {
   };
 
   const handleInputAmountChange = event => {
-    const input = event.target.value.replace(/[,]+/, '').replace(/[^0-9\.]+/, '');
+    const input = event.target.value.replace(/[,]+/, '').replace(/[^0-9.]+/, '');
     let amount = new BigNumber(input);
 
     if (amount.isNaN()) amount = new BigNumber(0);
@@ -206,7 +206,7 @@ const WithdrawSection = ({ pool, index, sharesBalance }) => {
       ...prevState,
       isNeedApproval: prevState.isZap && allowance.isZero(),
     }));
-  }, [tokens[pool.earnedToken].allowance[withdrawSettings.withdrawAddress]]);
+  }, [tokens, pool, withdrawSettings]);
 
   const handleApproval = () => {
     fetchApproval({

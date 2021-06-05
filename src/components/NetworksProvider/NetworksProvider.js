@@ -7,7 +7,7 @@ const NetworksProvider = ({ children }) => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  const networks = [
+  const networks = useMemo(() => [
     {
       name: 'BSC',
       asset: 'BNB',
@@ -38,7 +38,8 @@ const NetworksProvider = ({ children }) => {
       id: '250',
       url: 'https://fantom.beefy.finance',
     },
-  ];
+  ], []
+);
 
   const currentNetwork = useMemo(
     () => networks.find(network => network.id === process.env.REACT_APP_NETWORK_ID),

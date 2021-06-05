@@ -5,7 +5,7 @@ import styles from './styles';
 import { useTranslation } from 'react-i18next';
 const useStyles = makeStyles(styles);
 
-export default () => {
+ const HomeLink = () => {
   const classes = useStyles();
   const { t } = useTranslation();
   return (
@@ -15,3 +15,5 @@ export default () => {
     </a>
   );
 };
+
+export default HomeLink;

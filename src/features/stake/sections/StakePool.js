@@ -36,14 +36,16 @@ import { styles } from './styles/view';
 import Divider from '@material-ui/core/Divider';
 import { formatApy, formatCountdown } from '../../helpers/format';
 import { Helmet } from 'react-helmet';
-import { getNetworkFriendlyName } from '../../helpers/getNetworkData';
-import { getPageMeta, usePageMeta } from '../../common/getPageMeta';
+// import { getNetworkFriendlyName } from '../../helpers/getNetworkData';
+// import { getPageMeta, usePageMeta } from '../../common/getPageMeta';
+import { usePageMeta } from '../../common/getPageMeta';
 
 const useStyles = makeStyles(styles);
 
 export default function StakePool(props) {
   const classes = useStyles();
-  const { t, i18n } = useTranslation();
+  // const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { address } = useConnectWallet();
   const { allowance, checkApproval } = useCheckApproval();
   const { balance, fetchBalance } = useFetchBalance();
@@ -96,15 +98,15 @@ export default function StakePool(props) {
 
   useEffect(() => {
     setIndex(Number(props.match.params.index) - 1);
-  }, [Number(props.match.params.index)]);
+  }, [props.match.params.index]);
 
   useEffect(() => {
     setIsNeedApproval(Boolean(allowance[index] === 0));
-  }, [allowance[index], index]);
+  }, [index, allowance]);
 
   useEffect(() => {
     setApprovalAble(!Boolean(fetchApprovalPending[index]));
-  }, [fetchApprovalPending[index], index]);
+  }, [index, fetchApprovalPending]);
 
   const onApproval = () => {
     fetchApproval(index);
@@ -112,7 +114,7 @@ export default function StakePool(props) {
 
   useEffect(() => {
     setStakeAble(!Boolean(fetchStakePending[index]));
-  }, [fetchStakePending[index], index]);
+  }, [index, fetchStakePending]);
 
   const onStake = () => {
     const amount = new BigNumber(inputVal)
@@ -125,7 +127,7 @@ export default function StakePool(props) {
   useEffect(() => {
     const isPending = Boolean(fetchWithdrawPending[index]);
     setWithdrawAble(!isPending);
-  }, [fetchWithdrawPending[index], index]);
+  }, [index, fetchWithdrawPending]);
 
   const onWithdraw = () => {
     const amount = new BigNumber(inputVal)
@@ -139,7 +141,7 @@ export default function StakePool(props) {
     const isPending = Boolean(fetchClaimPending[index]);
     const rewardsAvailableIs0 = rewardsAvailable[index] === 0;
     setClaimAble(!Boolean(isPending || rewardsAvailableIs0));
-  }, [rewardsAvailable[index], fetchClaimPending[index], index]);
+  }, [rewardsAvailable, fetchClaimPending, index]);
 
   const onClaim = () => {
     fetchClaim(index);
@@ -148,7 +150,7 @@ export default function StakePool(props) {
   useEffect(() => {
     const isPending = Boolean(fetchExitPending[index]);
     setExitAble(!Boolean(isPending));
-  }, [fetchExitPending[index], index]);
+  }, [fetchExitPending, index]);
 
   const onExit = () => {
     fetchExit(index);
@@ -157,12 +159,12 @@ export default function StakePool(props) {
   useEffect(() => {
     const amount = byDecimals(balance[index], pools[index].tokenDecimals);
     setMyBalance(amount);
-  }, [balance[index], index]);
+  }, [balance, index, pools]);
 
   useEffect(() => {
     const amount = byDecimals(currentlyStaked[index], pools[index].tokenDecimals);
     setMyCurrentlyStaked(amount);
-  }, [currentlyStaked[index], index]);
+  }, [currentlyStaked, index, pools]);
 
   useEffect(() => {
     let amount = byDecimals(rewardsAvailable[index], pools[index].earnedTokenDecimals);
@@ -170,10 +172,10 @@ export default function StakePool(props) {
       amount = amount.multipliedBy(96).dividedBy(100);
     }
     setMyRewardsAvailable(amount);
-  }, [rewardsAvailable[index], index]);
+  }, [rewardsAvailable, index, pools]);
 
   useEffect(() => {
-    if (halfTime[index] == 0) {
+    if (halfTime[index] === 0) {
       if (!pools[index].hideCountdown === true) {
         pools[index].status = 'soon';
       }
@@ -193,7 +195,7 @@ export default function StakePool(props) {
     formatTime();
     const id = setInterval(formatTime, 1000);
     return () => clearInterval(id);
-  }, [halfTime[index], pools, index]);
+  }, [halfTime, pools, index, fetchHalfTime]);
 
   useEffect(() => {
     if (address) {
@@ -215,7 +217,7 @@ export default function StakePool(props) {
       fetchPoolData(index);
     }, 10000);
     return () => clearInterval(id);
-  }, [address, index]);
+  }, [address, index, checkApproval, fetchBalance, fetchCurrentlyStaked, fetchHalfTime, fetchPoolData, fetchRewardsAvailable]);
 
   const handleModal = (state, action = false) => {
     setOpen(state);
@@ -392,7 +394,7 @@ export default function StakePool(props) {
                     />
                   </Box>
                   <Box>
-                    <img className={classes.boostImg} src={require('images/stake/boost.svg')} />
+                    <img className={classes.boostImg} alt="boostImg" src={require('images/stake/boost.svg')} />
                   </Box>
                 </Box>
               ) : (
@@ -523,7 +525,7 @@ export default function StakePool(props) {
                       />
                     </Box>
                     <Box>
-                      <img className={classes.boostImg} src={require('images/stake/boost.svg')} />
+                      <img className={classes.boostImg} alt="boostImg" src={require('images/stake/boost.svg')} />
                     </Box>
                   </Box>
                 ) : (
