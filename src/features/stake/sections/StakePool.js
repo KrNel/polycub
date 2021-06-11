@@ -60,7 +60,7 @@ export default function StakePool(props) {
   const { pools, poolData, fetchPoolData } = useFetchPoolData();
   const [index, setIndex] = useState(Number(props.match.params.index) - 1);
   const [showInput, setShowInput] = useState(false);
-  const [isNeedApproval, setIsNeedApproval] = useState(true);
+  const [isNeedApproval, setIsNeedApproval] = useState(allowance[props.match.params.index] === 0);
   const [approvalAble, setApprovalAble] = useState(true);
   const [stakeAble, setStakeAble] = useState(true);
   const [withdrawAble, setWithdrawAble] = useState(true);
@@ -101,7 +101,7 @@ export default function StakePool(props) {
   }, [props.match.params.index]);
 
   useEffect(() => {
-    setIsNeedApproval(Boolean(allowance[index] === 0));
+    setIsNeedApproval(allowance[index] === 0);
   }, [index, allowance]);
 
   useEffect(() => {
