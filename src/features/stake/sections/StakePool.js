@@ -100,9 +100,10 @@ export default function StakePool(props) {
     setIndex(Number(props.match.params.index) - 1);
   }, [props.match.params.index]);
 
+  const allowanceString = JSON.stringify(allowance);
   useEffect(() => {
     setIsNeedApproval(allowance[index] === 0);
-  }, [index, allowance]);
+  }, [index, allowance, allowanceString]);
 
   useEffect(() => {
     setApprovalAble(!Boolean(fetchApprovalPending[index]));
